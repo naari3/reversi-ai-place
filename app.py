@@ -1,11 +1,40 @@
+# -*- coding: utf-8 -*-
 import os
-from flask import Flask, render_template, send_from_directory
+import random
 
-app = Flask(__name__)
+from pypugjs.ext.tornado import patch_tornado
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+import tornado.httpserver
+import tornado.ioloop
+from tornado import options
+from tornado import template
+import tornado.web
+import tornado.websocket
+from tornado.web import url
+
+patch_tornado()
+
+import json
+
+from handles import HomeHandler
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        handlers = [
+            url(r'/', HomeHandler, name='index'),
+        ]
+        settings = dict(
+            template_path=os.path.join(BASE_DIR, 'templates'),
+            static_path=os.path.join(BASE_DIR, 'static'),
+            debug=True,
+        )
+        tornado.web.Application.__init__(self, handlers, **settings)
+
 
 if __name__ == '__main__':
-    app.run()
+    options.parse_command_line()
+    app = Application()
+    http_server = tornado.httpserver.HTTPServer(app)
+    http_server.listen(8000)
+    tornado.ioloop.IOLoop.instance().start()
