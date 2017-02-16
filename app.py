@@ -16,13 +16,14 @@ patch_tornado()
 
 import json
 
-from handles import HomeHandler
+from handles import HomeHandler, BoardHandler
 
 class Application(tornado.web.Application):
     def __init__(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         handlers = [
-            url(r'/', HomeHandler, name='index'),
+            url(r'/', HomeHandler, name='home'),
+            url(r'/v1/board/([0-9]+)', BoardHandler, name='board'),
         ]
         settings = dict(
             template_path=os.path.join(BASE_DIR, 'templates'),
