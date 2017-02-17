@@ -16,7 +16,7 @@ patch_tornado()
 
 import json
 
-from handles import HomeHandler, BoardHandler
+from handles import HomeHandler, BoardHandler, BoardWebSocketHandler
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -24,6 +24,7 @@ class Application(tornado.web.Application):
         handlers = [
             url(r'/', HomeHandler, name='home'),
             url(r'/v1/board/([0-9]+)', BoardHandler, name='board'),
+            url(r'/v1/board/([0-9]+)/ws', BoardWebSocketHandler, name='board_ws'),
         ]
         settings = dict(
             template_path=os.path.join(BASE_DIR, 'templates'),
