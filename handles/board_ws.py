@@ -31,6 +31,8 @@ class BoardWebSocketHandler(tornado.websocket.WebSocketHandler):
         board_id = self.board_id_dict[self]
         input_data = json.loads(message)
         if input_data.get('x', False) and input_data.get('y', False):
-            self.boards[board_id].receive_move(self, input_data['x'], input_data['y'])
+            self.boards[board_id].receive_move(
+                self, input_data['x'], input_data['y'])
         else:
-            self.write_message('illegal inputs')
+            self.write_message(json.dumps(
+                {meta: {'status': 400, 'message': 'illegal move'}}))
