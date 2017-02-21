@@ -2,6 +2,7 @@
 
 import sys
 from models import BoardGameMaster, ReversiStatus, ReversiBoard
+from errors import NoPutablePlaceError
 
 import pytest
 
@@ -11,10 +12,10 @@ sys.path.append('..')
 class _player(object):
 
     def __init__(self):
-        write_message = None
+        message = None
 
     def write_message(self, message):
-        self.write_message = message
+        self.message = message
 
 
 class TestGameMaster(object):
@@ -72,7 +73,7 @@ class TestGameMaster(object):
         gm.send_all(message)
 
         for p in gm.players:
-            assert p.write_message == message
+            assert p.message == message
 
     def test_receive_move_valid(self):
         gm = BoardGameMaster(1)
@@ -97,7 +98,7 @@ class TestGameMaster(object):
 
         data_string = '{"board": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 1, 0, 0, 0], [0, 0, 0, 2, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], "finished": false, "started": true, "turn": 2, "turns": 1}'
         for p in gm.players:
-            assert p.write_message == data_string
+            assert p.message == data_string
 
     def test_receive_move_invalid(self):
         gm = BoardGameMaster(1)
@@ -122,4 +123,59 @@ class TestGameMaster(object):
 
         data_string = '{"board": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 2, 0, 0, 0], [0, 0, 0, 2, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], "finished": false, "started": true, "turn": 1, "turns": 1}'
         for p in gm.players:
-            assert p.write_message == data_string
+            assert p.message == data_string
+
+    def test_receive_move_pass(self):
+        gm = BoardGameMaster(1)
+
+        player1 = _player()
+        player2 = _player()
+        gm.add_player(player1)
+        gm.add_player(player2)
+
+        gm.status.turn = 1
+
+        gm.board.board[0:8] = [0, 0, 0, 0, 0, 0, 0, 0]
+        gm.board.board[8:16] = [0, 0, 0, 0, 0, 0, 0, 0]
+        gm.board.board[16:24] = [0, 0, 0, 0, 0, 0, 0, 0]
+        gm.board.board[24:32] = [0, 0, 2, 2, 2, 0, 0, 0]
+        gm.board.board[32:40] = [0, 0, 0, 2, 2, 2, 2, 2]
+        gm.board.board[40:48] = [0, 0, 0, 0, 0, 1, 0, 1]
+        gm.board.board[48:56] = [0, 0, 0, 2, 2, 2, 2, 1]
+        gm.board.board[56:64] = [0, 0, 0, 0, 0, 0, 0, 1]
+
+        gm.receive_move(player1, 5, 7)
+        assert gm.status.turn == 1
+
+        gm.receive_move(player1, 3, 7)
+        assert gm.status.turn == 1
+
+        gm.receive_move(player1, 2, 6)
+        assert gm.status.turn == 1
+
+        gm.receive_move(player1, 7, 3)
+        assert gm.status.turn == 1
+
+    def test_finish(self):
+        gm = BoardGameMaster(1)
+
+        player1 = _player()
+        player2 = _player()
+        gm.add_player(player1)
+        gm.add_player(player2)
+
+        gm.board.board[0:8] = [1, 1, 1, 1, 1, 1, 1, 1]
+        gm.board.board[8:16] = [1, 1, 1, 1, 1, 1, 1, 1]
+        gm.board.board[16:24] = [1, 1, 1, 1, 1, 1, 1, 1]
+        gm.board.board[24:32] = [1, 1, 1, 1, 1, 1, 1, 1]
+        gm.board.board[32:40] = [1, 1, 1, 1, 1, 1, 1, 1]
+        gm.board.board[40:48] = [1, 1, 1, 1, 1, 1, 1, 1]
+        gm.board.board[48:56] = [1, 1, 1, 1, 1, 1, 1, 2]
+        gm.board.board[56:64] = [1, 1, 1, 1, 1, 1, 1, 0]
+
+        print(gm.status.export_status())
+        gm.receive_move(player1, 7, 7)
+
+        data_string = '{"board": [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]], "finished": true, "result": {"draw": false, "lose": "player2", "win": "player1"}, "started": true, "turn": 2, "turns": 2}'
+        for p in gm.players:
+            assert p.message == data_string

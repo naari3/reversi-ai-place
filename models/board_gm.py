@@ -33,6 +33,17 @@ class BoardGameMaster(object):
         for p in self.players:
             p.write_message(message)
 
+    def pass_check(self, count=0):
+        if count == 2:
+            self.finish()
+        putable = self.board.able_to_put(self.status.turn)
+        if len(putable) == 0 and count < 2:  # どこにも置けなかったら
+            self.status.progress_turn()
+            self.pass_check(count+1)
+
+    def finish(self):
+        self.status.finish()
+
     def receive_move(self, player, x, y):
         ind = self.players.index(player) + 1
         place = x + y * 8
@@ -41,6 +52,7 @@ class BoardGameMaster(object):
         try:
             reverse_num = self.board.put_piece(place, ind)
             self.status.progress_turn()
+            self.pass_check()
         except Exception as e:
             if isinstance(e, AssertionError):
                 print("invalid move")
@@ -51,6 +63,16 @@ class BoardGameMaster(object):
             'board': self.board.export_board(),
             **self.status.export_status()
         }
+
+        if self.status.finished:
+            score1 = (self.board.board == 1).sum()
+            score2 = (self.board.board == 2).sum()
+            game_data['result'] = {
+                'win': 'player1' if score1 > score2 else 'player2',
+                'lose': 'player1' if score1 < score2 else 'player2',
+                'draw': True if score1 == score2 else False,
+            }
+
         data_message = json.dumps(
             game_data, sort_keys=True, ensure_ascii=False)
         self.send_all(data_message)
