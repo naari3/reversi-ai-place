@@ -39,7 +39,7 @@ class BoardGameMaster(object):
         putable = self.board.able_to_put(self.status.turn)
         if len(putable) == 0 and count < 2:  # どこにも置けなかったら
             self.status.progress_turn()
-            self.pass_check(count+1)
+            self.pass_check(count + 1)
 
     def finish(self):
         self.status.finish()
