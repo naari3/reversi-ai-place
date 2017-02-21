@@ -8,7 +8,7 @@ import pytest
 
 class TestBoard(object):
 
-    def text_moves(self):
+    def test_valid_moves(self):
         board = ReversiBoard()
         result = board.put_piece(26, 2)
         assert result == 1
