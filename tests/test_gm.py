@@ -99,25 +99,30 @@ class TestGameMaster(object):
         ]
 
         correct_data = {
-            "board": [
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 1, 0, 0, 0],
-                [0, 0, 0, 1, 1, 0, 0, 0],
-                [0, 0, 0, 2, 1, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0]
-            ],
-            "move": {
-                "x": 4,
-                "y": 2,
-                "correct": True,
+            "meta": {
+                "status": 200,
             },
-            "finished": False,
-            "started": True,
-            "turn": 2,
-            "turns": 1
+            "data": {
+                "board": [
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 0],
+                    [0, 0, 0, 1, 1, 0, 0, 0],
+                    [0, 0, 0, 2, 1, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0]
+                ],
+                "move": {
+                    "x": 4,
+                    "y": 2,
+                    "correct": True,
+                },
+                "finished": False,
+                "started": True,
+                "turn": 2,
+                "turns": 1
+            }
         }
         for p in gm.players:
             assert json.loads(p.message) == correct_data
@@ -144,25 +149,30 @@ class TestGameMaster(object):
         ]
 
         correct_data = {
-            "board": [
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 1, 2, 0, 0, 0],
-                [0, 0, 0, 2, 1, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0]
-            ],
-            "move": {
-                "x": 0,
-                "y": 0,
-                "correct": False,
+            "meta": {
+                "status": 400,
             },
-            "finished": False,
-            "started": True,
-            "turn": 1,
-            "turns": 1
+            "data": {
+                "board": [
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 1, 2, 0, 0, 0],
+                    [0, 0, 0, 2, 1, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0]
+                ],
+                "move": {
+                    "x": 0,
+                    "y": 0,
+                    "correct": False,
+                },
+                "finished": False,
+                "started": True,
+                "turn": 1,
+                "turns": 1
+            }
         }
         for p in gm.players:
             assert json.loads(p.message) == correct_data
@@ -219,30 +229,35 @@ class TestGameMaster(object):
         gm.receive_move(player1, 7, 7)
 
         correct_data = {
-            "board": [
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1]
-            ],
-            "move": {
-                "x": 7,
-                "y": 7,
-                "correct": True,
-            },
-            "finished": True,
-            "result": {
-                "draw": False,
-                "lose": "player2",
-                "win": "player1"
-            },
-            "started": True,
-            "turn": 2,
-            "turns": 2
+            "meta": {
+                "status": 200,
+            }
+            "data": {
+                "board": [
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1]
+                ],
+                "move": {
+                    "x": 7,
+                    "y": 7,
+                    "correct": True,
+                },
+                "finished": True,
+                "result": {
+                    "draw": False,
+                    "lose": "player2",
+                    "win": "player1"
+                },
+                "started": True,
+                "turn": 2,
+                "turns": 2
+            }
         }
         for p in gm.players:
             assert json.loads(p.message) == correct_data
@@ -268,30 +283,35 @@ class TestGameMaster(object):
         gm.receive_move(player1, 7, 5)
 
         correct_data = {
-            "board": [
-                [1, 1, 1, 1, 1, 1, 1, 0],
-                [1, 1, 1, 1, 1, 1, 1, 0],
-                [1, 1, 1, 1, 1, 1, 1, 0],
-                [1, 1, 1, 1, 1, 1, 1, 0],
-                [1, 1, 1, 1, 1, 1, 1, 0],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1]
-            ],
-            "move": {
-                "x": 7,
-                "y": 5,
-                "correct": True,
-            },
-            "finished": True,
-            "result": {
-                "draw": False,
-                "lose": "player2",
-                "win": "player1"
-            },
-            "started": True,
-            "turn": 2,
-            "turns": 2
+            "meta": {
+                "status": 400,
+            }
+            "data": {
+                "board": [
+                    [1, 1, 1, 1, 1, 1, 1, 0],
+                    [1, 1, 1, 1, 1, 1, 1, 0],
+                    [1, 1, 1, 1, 1, 1, 1, 0],
+                    [1, 1, 1, 1, 1, 1, 1, 0],
+                    [1, 1, 1, 1, 1, 1, 1, 0],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1]
+                ],
+                "move": {
+                    "x": 7,
+                    "y": 5,
+                    "correct": True,
+                },
+                "finished": True,
+                "result": {
+                    "draw": False,
+                    "lose": "player2",
+                    "win": "player1"
+                },
+                "started": True,
+                "turn": 2,
+                "turns": 2
+            }
         }
         for p in gm.players:
             assert json.loads(p.message) == correct_data
