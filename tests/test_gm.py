@@ -19,7 +19,7 @@ class TestGameMaster(object):
 
     def test_instance(self):
         gm = BoardGameMaster(1)
-        assert gm.id == 1
+        assert gm.board_id == 1
         assert isinstance(gm.status, ReversiStatus)
         assert isinstance(gm.board, ReversiBoard)
 
@@ -82,20 +82,20 @@ class TestGameMaster(object):
 
         assert gm.receive_move(player1, 4, 2) == True
 
-        assert all(gm.board == [
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 1, 0, 0, 0,
-            0, 0, 0, 1, 1, 0, 0, 0,
-            0, 0, 0, 2, 1, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-        ])
+        assert gm.board.export_board() == [
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 0, 1, 0, 0, 0),
+            (0, 0, 0, 1, 1, 0, 0, 0),
+            (0, 0, 0, 2, 1, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+        ]
 
-        data_string = '{"board": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 1, 0, 0, 0], [0, 0, 0, 2, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], "turn": 2, "turns": 1, "started": true, "finished": false}'
+        data_string = '{"board": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 1, 0, 0, 0], [0, 0, 0, 2, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], "finished": false, "started": true, "turn": 2, "turns": 1}'
         for p in gm.players:
-            assert p.write_message == board_string
+            assert p.write_message == data_string
 
     def test_receive_move_invalid(self):
         gm = BoardGameMaster(1)
@@ -107,17 +107,17 @@ class TestGameMaster(object):
 
         assert gm.receive_move(player1, 0, 0) == False
 
-        assert all(gm.board == [
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 1, 2, 0, 0, 0,
-            0, 0, 0, 2, 1, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-        ])
+        assert gm.board.export_board() == [
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 1, 2, 0, 0, 0),
+            (0, 0, 0, 2, 1, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+            (0, 0, 0, 0, 0, 0, 0, 0),
+        ]
 
-        data_string = '{"board": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 2, 0, 0, 0], [0, 0, 0, 2, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], "turn": 1, "turns": 1, "started": true, "finished": false}'
+        data_string = '{"board": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 2, 0, 0, 0], [0, 0, 0, 2, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], "finished": false, "started": true, "turn": 1, "turns": 1}'
         for p in gm.players:
             assert p.write_message == data_string
