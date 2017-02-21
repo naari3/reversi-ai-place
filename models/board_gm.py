@@ -59,6 +59,9 @@ class BoardGameMaster(object):
             else:
                 raise e
 
+        meta_data = {
+            'status': 200 if bool(reverse_num) else 400
+        }
         game_data = {
             'board': self.board.export_board(),
             'move': {
@@ -78,7 +81,12 @@ class BoardGameMaster(object):
                 'draw': True if score1 == score2 else False,
             }
 
+        data = {
+            "meta": meta_data,
+            "data": game_data,
+        }
+
         data_message = json.dumps(
-            game_data, sort_keys=True, ensure_ascii=False)
+            data, sort_keys=True, ensure_ascii=False)
         self.send_all(data_message)
         return bool(reverse_num)

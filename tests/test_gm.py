@@ -231,7 +231,7 @@ class TestGameMaster(object):
         correct_data = {
             "meta": {
                 "status": 200,
-            }
+            },
             "data": {
                 "board": [
                     [1, 1, 1, 1, 1, 1, 1, 1],
@@ -284,8 +284,8 @@ class TestGameMaster(object):
 
         correct_data = {
             "meta": {
-                "status": 400,
-            }
+                "status": 200,
+            },
             "data": {
                 "board": [
                     [1, 1, 1, 1, 1, 1, 1, 0],
