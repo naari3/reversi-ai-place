@@ -156,7 +156,7 @@ class TestGameMaster(object):
         gm.receive_move(player1, 7, 3)
         assert gm.status.turn == 1
 
-    def test_finish(self):
+    def test_finish1(self):
         gm = BoardGameMaster(1)
 
         player1 = _player()
@@ -177,5 +177,29 @@ class TestGameMaster(object):
         gm.receive_move(player1, 7, 7)
 
         data_string = '{"board": [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]], "finished": true, "result": {"draw": false, "lose": "player2", "win": "player1"}, "started": true, "turn": 2, "turns": 2}'
+        for p in gm.players:
+            assert p.message == data_string
+
+    def test_finish2(self):
+        gm = BoardGameMaster(1)
+
+        player1 = _player()
+        player2 = _player()
+        gm.add_player(player1)
+        gm.add_player(player2)
+
+        gm.board.board[0:8] = [1, 1, 1, 1, 1, 1, 1, 0]
+        gm.board.board[8:16] = [1, 1, 1, 1, 1, 1, 1, 0]
+        gm.board.board[16:24] = [1, 1, 1, 1, 1, 1, 1, 0]
+        gm.board.board[24:32] = [1, 1, 1, 1, 1, 1, 1, 0]
+        gm.board.board[32:40] = [1, 1, 1, 1, 1, 1, 1, 0]
+        gm.board.board[40:48] = [1, 1, 1, 1, 1, 1, 1, 0]
+        gm.board.board[48:56] = [1, 1, 1, 1, 1, 1, 1, 2]
+        gm.board.board[56:64] = [1, 1, 1, 1, 1, 1, 1, 1]
+
+        print(gm.status.export_status())
+        gm.receive_move(player1, 7, 5)
+
+        data_string = '{"board": [[1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]], "finished": true, "result": {"draw": false, "lose": "player2", "win": "player1"}, "started": true, "turn": 2, "turns": 2}'
         for p in gm.players:
             assert p.message == data_string
