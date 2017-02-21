@@ -1,6 +1,7 @@
 # -*- config: utf-8 -*-
 import sys
 from models import ReversiStatus
+from errors import BoardStatusError
 
 import pytest
 
@@ -50,7 +51,7 @@ class TestStatus(object):
 
     def test_finish_invalid(self):
         status = ReversiStatus()
-        with pytest.raises(Exception):
+        with pytest.raises(BoardStatusError):
             status.finish()
 
     def test_after_start_method(self):
@@ -60,7 +61,7 @@ class TestStatus(object):
 
     def test_after_start_method_exception(self):
         status = ReversiStatus()
-        with pytest.raises(Exception):
+        with pytest.raises(BoardStatusError):
             status.progress_turn()
 
     def test_progress_turn(self):

@@ -1,2 +1,3 @@
 # -*- coding: utf-8 -*-
-from .unputable import NoPutablePlaceError
+from .noputable import NoPutablePlaceError
+from .status_error import BoardStatusError

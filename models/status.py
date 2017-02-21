@@ -1,5 +1,6 @@
 import json
 from functools import wraps
+from errors import BoardStatusError
 
 
 class ReversiStatus(object):
@@ -18,7 +19,7 @@ class ReversiStatus(object):
             if self.started:
                 f(self, *args, **kwargs)
             else:
-                raise Exception("not in progress")
+                raise BoardStatusError("not started")
         return wrapper
 
     def after_finish_method(f):
@@ -27,7 +28,7 @@ class ReversiStatus(object):
             if self.finished:
                 f(self, *args, **kwargs)
             else:
-                raise Exception("in progress")
+                raise BoardStatusError("not finished")
         return wrapper
 
     def start(self):
