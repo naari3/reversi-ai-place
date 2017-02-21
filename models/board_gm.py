@@ -64,6 +64,7 @@ class BoardGameMaster(object):
             'move': {
                 'x': x,
                 'y': y,
+                'correct': bool(reverse_num),
             },
             **self.status.export_status()
         }

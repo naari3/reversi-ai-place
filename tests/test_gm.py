@@ -112,6 +112,7 @@ class TestGameMaster(object):
             "move": {
                 "x": 4,
                 "y": 2,
+                "correct": True,
             },
             "finished": False,
             "started": True,
@@ -156,6 +157,7 @@ class TestGameMaster(object):
             "move": {
                 "x": 0,
                 "y": 0,
+                "correct": False,
             },
             "finished": False,
             "started": True,
@@ -230,6 +232,7 @@ class TestGameMaster(object):
             "move": {
                 "x": 7,
                 "y": 7,
+                "correct": True,
             },
             "finished": True,
             "result": {
@@ -278,6 +281,7 @@ class TestGameMaster(object):
             "move": {
                 "x": 7,
                 "y": 5,
+                "correct": True,
             },
             "finished": True,
             "result": {
