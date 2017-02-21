@@ -45,6 +45,12 @@ class TestBoard(object):
             0, 0, 0, 0, 0, 0, 0, 0,
         ])
 
+    def test_able_to_put(self):
+        board = ReversiBoard()
+        board.put_piece(26, 2)
+        result = board.able_to_put(1)
+        assert len(result) == 3
+
     def test_export(self):
         board = ReversiBoard()
         data = board.export_board()

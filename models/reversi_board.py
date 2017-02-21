@@ -50,6 +50,21 @@ class ReversiBoard(object):
                 self.board[p] = w
         return t
 
+    def able_to_put(self, w):
+        squares = []
+        for i in range(64):
+            if self.board[i] != 0:
+                continue
+            try:
+                if self.put_piece(i, w, False) != 0:
+                    squares.append(i)
+            except Exception as e:
+                if isinstance(e, AssertionError):
+                    pass
+                else:
+                    raise e
+        return squares
+
     def export_board(self):
         data = list(zip(*[iter(self.board.tolist())] * 8))
         return data
