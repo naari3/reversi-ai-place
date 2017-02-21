@@ -34,6 +34,25 @@ class TestStatus(object):
         }
         assert data == started_data
 
+    def test_finish_valid(self):
+        status = ReversiStatus()
+        status.start()
+        status.finish()
+        data = status.export_status()
+
+        started_data = {
+            'turns': 1,
+            'turn': 1,
+            'started': True,
+            'finished': True,
+        }
+        assert data == started_data
+
+    def test_finish_invalid(self):
+        status = ReversiStatus()
+        with pytest.raises(Exception):
+            status.finish()
+
     def test_after_start_method(self):
         status = ReversiStatus()
         status.start()
