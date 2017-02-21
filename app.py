@@ -14,7 +14,7 @@ from tornado.web import url
 
 import json
 
-from handles import HomeHandler, BoardHandler, BoardWebSocketHandler
+from handlers import HomeHandler, BoardHandler, BoardWebSocketHandler
 
 patch_tornado()
 

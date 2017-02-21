@@ -3,10 +3,13 @@ import tornado.web
 import tornado.websocket
 import random
 
+from .board_ws import BoardWebSocketHandler
+
 
 class BoardHandler(tornado.web.RequestHandler):
 
     def get(self, borad_id):
+        print(BoardWebSocketHandler.boards)
         response = {
             'meta': {
                 'status': 200
