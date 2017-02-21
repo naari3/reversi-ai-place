@@ -1,17 +1,25 @@
 # -*- coding: utf-8 -*-
 import tornado.websocket
+from models import BoardGameMaster
 
 class BoardWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     boards = {}
 
-    def open(self, borad_id):
-        print(borad_id)
-        self.boards.get(borad_id, self)
-        # print('Session {} opened by {}'.format(board_id, self.request.remote_ip))
+    board_id_dict = {}
+
+    def open(self, board_id):
+        print(f"opened and connected to {board_id} by {self.request.remote_ip}")
+        BoardWebSocketHandler.boards[board_id] = BoardWebSocketHandler.boards.get(board_id, BoardGameMaster(board_id))
+        print(BoardWebSocketHandler.boards)
+        BoardWebSocketHandler.board_id_dict[self] = board_id # 逆引き: ダサい
+        if not BoardWebSocketHandler.boards[board_id].add_player(self): # 追加できたらTrue返ってくる
+            self.close(code=1003, reason="You can't join to [{board_id}]")
+
+    def on_close(self):
+        board_id = BoardWebSocketHandler.board_id_dict[self]
+        print(f"closed and disconnected to {board_id} by {self.request.remote_ip}")
+        BoardWebSocketHandler.boards[board_id].remove_player(self)
 
     def on_message(self, message):
         self.write_message(message)
-
-    def on_close(self):
-        print('Session closed by {}'.format(self.request.remote_ip))
