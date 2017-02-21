@@ -15,7 +15,7 @@ class ReversiStatus(object):
     def after_start_method(f):
         @wraps(f)
         def wrapper(self, *args, **kwargs):
-            if self.started and not self.finished:
+            if self.started:
                 f(self, *args, **kwargs)
             else:
                 raise Exception("not in progress")
@@ -24,7 +24,7 @@ class ReversiStatus(object):
     def after_finish_method(f):
         @wraps(f)
         def wrapper(self, *args, **kwargs):
-            if not self.started and self.finished:
+            if self.finished:
                 f(self, *args, **kwargs)
             else:
                 raise Exception("in progress")
