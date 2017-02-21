@@ -6,6 +6,8 @@ from errors import NoPutablePlaceError
 
 import pytest
 
+import json
+
 sys.path.append('..')
 
 
@@ -96,9 +98,24 @@ class TestGameMaster(object):
             (0, 0, 0, 0, 0, 0, 0, 0),
         ]
 
-        data_string = '{"board": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 1, 0, 0, 0], [0, 0, 0, 2, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], "finished": false, "started": true, "turn": 2, "turns": 1}'
+        correct_data = {
+            "board": [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 1, 0, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0, 0],
+                [0, 0, 0, 2, 1, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0]
+            ],
+            "finished": False,
+            "started": True,
+            "turn": 2,
+            "turns": 1
+        }
         for p in gm.players:
-            assert p.message == data_string
+            assert json.loads(p.message) == correct_data
 
     def test_receive_move_invalid(self):
         gm = BoardGameMaster(1)
@@ -121,9 +138,24 @@ class TestGameMaster(object):
             (0, 0, 0, 0, 0, 0, 0, 0),
         ]
 
-        data_string = '{"board": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 2, 0, 0, 0], [0, 0, 0, 2, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], "finished": false, "started": true, "turn": 1, "turns": 1}'
+        correct_data = {
+            "board": [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 1, 2, 0, 0, 0],
+                [0, 0, 0, 2, 1, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0]
+            ],
+            "finished": false,
+            "started": true,
+            "turn": 1,
+            "turns": 1
+        }
         for p in gm.players:
-            assert p.message == data_string
+            assert json.loads(p.message) == correct_data
 
     def test_receive_move_pass(self):
         gm = BoardGameMaster(1)
@@ -176,9 +208,29 @@ class TestGameMaster(object):
         print(gm.status.export_status())
         gm.receive_move(player1, 7, 7)
 
-        data_string = '{"board": [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]], "finished": true, "result": {"draw": false, "lose": "player2", "win": "player1"}, "started": true, "turn": 2, "turns": 2}'
+        correct_data = {
+            "board": [
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1]
+            ],
+            "finished": True,
+            "result": {
+                "draw": False,
+                "lose": "player2",
+                "win": "player1"
+            },
+            "started": True,
+            "turn": 2,
+            "turns": 2
+        }
         for p in gm.players:
-            assert p.message == data_string
+            assert json.loads(p.message) == correct_data
 
     def test_finish2(self):
         gm = BoardGameMaster(1)
@@ -200,6 +252,26 @@ class TestGameMaster(object):
         print(gm.status.export_status())
         gm.receive_move(player1, 7, 5)
 
-        data_string = '{"board": [[1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]], "finished": true, "result": {"draw": false, "lose": "player2", "win": "player1"}, "started": true, "turn": 2, "turns": 2}'
+        correct_data = {
+            "board": [
+                [1, 1, 1, 1, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1]
+            ],
+            "finished": True,
+            "result": {
+                "draw": False,
+                "lose": "player2",
+                "win": "player1"
+            },
+            "started": True,
+            "turn": 2,
+            "turns": 2
+        }
         for p in gm.players:
-            assert p.message == data_string
+            assert json.loads(p.message) == correct_data
