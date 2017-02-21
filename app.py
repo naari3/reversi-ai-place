@@ -12,19 +12,22 @@ import tornado.web
 import tornado.websocket
 from tornado.web import url
 
-patch_tornado()
-
 import json
 
 from handles import HomeHandler, BoardHandler, BoardWebSocketHandler
 
+patch_tornado()
+
+
 class Application(tornado.web.Application):
+
     def __init__(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         handlers = [
             url(r'/', HomeHandler, name='home'),
             url(r'/v1/board/([0-9]+)', BoardHandler, name='board'),
-            url(r'/v1/board/([0-9]+)/ws', BoardWebSocketHandler, name='board_ws'),
+            url(r'/v1/board/([0-9]+)/ws',
+                BoardWebSocketHandler, name='board_ws'),
         ]
         settings = dict(
             template_path=os.path.join(BASE_DIR, 'templates'),

@@ -3,6 +3,7 @@ import tornado.web
 import tornado.websocket
 import random
 
+
 class BoardHandler(tornado.web.RequestHandler):
 
     def get(self, borad_id):
@@ -12,7 +13,7 @@ class BoardHandler(tornado.web.RequestHandler):
             },
             'data': {
                 'id': borad_id,
-                'random': random.randint(0,100)
+                'random': random.randint(0, 100)
             },
         }
 

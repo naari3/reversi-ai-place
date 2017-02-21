@@ -1,13 +1,14 @@
 import json
 from functools import wraps
 
+
 class ReversiStatus(object):
     """docstring for ReversiStatus"""
 
     def __init__(self):
         super(ReversiStatus, self).__init__()
-        self.turns = 0 # 合計ターン数
-        self.turn = 0 # 先攻/後攻 (1/2)
+        self.turns = 0  # 合計ターン数
+        self.turn = 0  # 先攻/後攻 (1/2)
         self.started = False
         self.finished = False
 

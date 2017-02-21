@@ -1,8 +1,10 @@
 import json
 from models import ReversiStatus, ReversiBoard
 
+
 class BoardGameMaster(object):
     """docstring for BoardGameMaster"""
+
     def __init__(self, board_id):
         super(BoardGameMaster, self).__init__()
         self.board_id = board_id
@@ -33,7 +35,7 @@ class BoardGameMaster(object):
 
     def receive_move(self, player, x, y):
         ind = self.players.index(player) + 1
-        place = x + y*8
+        place = x + y * 8
         reverse_num = 0
 
         try:
@@ -49,6 +51,7 @@ class BoardGameMaster(object):
             'board': self.board.export_board(),
             **self.status.export_status()
         }
-        data_message = json.dumps(game_data, sort_keys=True, ensure_ascii=False)
+        data_message = json.dumps(
+            game_data, sort_keys=True, ensure_ascii=False)
         self.send_all(data_message)
         return bool(reverse_num)

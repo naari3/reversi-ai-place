@@ -1,9 +1,10 @@
 # -*- config: utf-8 -*-
 import sys
-sys.path.append('..')
 from models import ReversiBoard
 
 import pytest
+
+sys.path.append('..')
 
 
 class TestBoard(object):
@@ -28,10 +29,10 @@ class TestBoard(object):
     def test_invalid_moves(self):
         board = ReversiBoard()
         with pytest.raises(Exception):
-            board.put_piece(1,1)
+            board.put_piece(1, 1)
 
         with pytest.raises(Exception):
-            board.put_piece(1,2)
+            board.put_piece(1, 2)
 
         assert all(board.board == [
             0, 0, 0, 0, 0, 0, 0, 0,

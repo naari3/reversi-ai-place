@@ -1,9 +1,12 @@
 # -*- config: utf-8 -*-
+
 import sys
-sys.path.append('..')
 from models import BoardGameMaster, ReversiStatus, ReversiBoard
 
 import pytest
+
+sys.path.append('..')
+
 
 class _player(object):
 
@@ -12,7 +15,6 @@ class _player(object):
 
     def write_message(self, message):
         self.write_message = message
-
 
 
 class TestGameMaster(object):
@@ -29,9 +31,9 @@ class TestGameMaster(object):
         player2 = _player()
         player3 = _player()
 
-        assert gm.add_player(player1) == True
-        assert gm.add_player(player2) == True
-        assert gm.add_player(player3) == False
+        assert gm.add_player(player1) is True
+        assert gm.add_player(player2) is True
+        assert gm.add_player(player3) is False
 
         assert player1 in gm.players
         assert player2 in gm.players
@@ -56,7 +58,7 @@ class TestGameMaster(object):
         player2 = _player()
         gm.add_player(player1)
         gm.add_player(player2)
-        assert gm.status.started == True
+        assert gm.status.started is True
 
     def test_send_all(self):
         gm = BoardGameMaster(1)
@@ -80,7 +82,7 @@ class TestGameMaster(object):
         gm.add_player(player1)
         gm.add_player(player2)
 
-        assert gm.receive_move(player1, 4, 2) == True
+        assert gm.receive_move(player1, 4, 2) is True
 
         assert gm.board.export_board() == [
             (0, 0, 0, 0, 0, 0, 0, 0),
@@ -105,7 +107,7 @@ class TestGameMaster(object):
         gm.add_player(player1)
         gm.add_player(player2)
 
-        assert gm.receive_move(player1, 0, 0) == False
+        assert gm.receive_move(player1, 0, 0) is False
 
         assert gm.board.export_board() == [
             (0, 0, 0, 0, 0, 0, 0, 0),

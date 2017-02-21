@@ -1,9 +1,10 @@
 # -*- config: utf-8 -*-
 import sys
-sys.path.append('..')
 from models import ReversiStatus
 
 import pytest
+
+sys.path.append('..')
 
 
 class TestStatus(object):
