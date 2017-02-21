@@ -109,6 +109,10 @@ class TestGameMaster(object):
                 [0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0]
             ],
+            "move": {
+                "x": 4,
+                "y": 2,
+            },
             "finished": False,
             "started": True,
             "turn": 2,
@@ -149,8 +153,12 @@ class TestGameMaster(object):
                 [0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0]
             ],
-            "finished": false,
-            "started": true,
+            "move": {
+                "x": 0,
+                "y": 0,
+            },
+            "finished": False,
+            "started": True,
             "turn": 1,
             "turns": 1
         }
@@ -219,6 +227,10 @@ class TestGameMaster(object):
                 [1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1]
             ],
+            "move": {
+                "x": 7,
+                "y": 7,
+            },
             "finished": True,
             "result": {
                 "draw": False,
@@ -263,6 +275,10 @@ class TestGameMaster(object):
                 [1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1]
             ],
+            "move": {
+                "x": 7,
+                "y": 5,
+            },
             "finished": True,
             "result": {
                 "draw": False,

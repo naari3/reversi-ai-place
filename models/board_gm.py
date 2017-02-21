@@ -61,6 +61,10 @@ class BoardGameMaster(object):
 
         game_data = {
             'board': self.board.export_board(),
+            'move': {
+                'x': x,
+                'y': y,
+            },
             **self.status.export_status()
         }
 
