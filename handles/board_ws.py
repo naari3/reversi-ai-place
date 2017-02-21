@@ -3,6 +3,8 @@ import tornado.websocket
 
 from models import BoardGameMaster
 
+import json
+
 
 class BoardWebSocketHandler(tornado.websocket.WebSocketHandler):
 
@@ -26,4 +28,9 @@ class BoardWebSocketHandler(tornado.websocket.WebSocketHandler):
         self.boards[board_id].remove_player(self)
 
     def on_message(self, message):
-        self.write_message(message)
+        board_id = self.board_id_dict[self]
+        input_data = json.loads(message)
+        if input_data.get('x', False) and input_data.get('y', False):
+            self.boards[board_id].receive_move(self, input_data['x'], input_data['y'])
+        else:
+            self.write_message('illegal inputs')
