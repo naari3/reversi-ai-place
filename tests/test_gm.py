@@ -114,17 +114,6 @@ class TestGameMaster(object):
 
         assert gm.receive_move(player1, 4, 2) is True
 
-        assert gm.board.export_board() == [
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 0, 1, 0, 0, 0),
-            (0, 0, 0, 1, 1, 0, 0, 0),
-            (0, 0, 0, 2, 1, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-        ]
-
         correct_data = {
             "meta": {
                 "status": 200,
@@ -163,17 +152,6 @@ class TestGameMaster(object):
         gm.add_player(player2)
 
         assert gm.receive_move(player1, 0, 0) is False
-
-        assert gm.board.export_board() == [
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 1, 2, 0, 0, 0),
-            (0, 0, 0, 2, 1, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-            (0, 0, 0, 0, 0, 0, 0, 0),
-        ]
 
         correct_data = {
             "meta": {

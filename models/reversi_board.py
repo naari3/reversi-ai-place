@@ -67,6 +67,7 @@ class ReversiBoard(object):
 
     def export_board(self):
         data = list(zip(*[iter(self.board.tolist())] * 8))
+        data = [list(da) for da in data]
         return data
 
     def print_board(self):
