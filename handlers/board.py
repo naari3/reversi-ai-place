@@ -1,24 +1,17 @@
 # -*- coding: utf-8 -*-
 import tornado.web
 import tornado.websocket
-import random
+import json
 
 from .board_ws import BoardWebSocketHandler
+from models import BoardGameMaster
 
 
 class BoardHandler(tornado.web.RequestHandler):
 
     def get(self, borad_id):
-        print(BoardWebSocketHandler.boards)
-        response = {
-            'meta': {
-                'status': 200
-            },
-            'data': {
-                'id': borad_id,
-                'random': random.randint(0, 100)
-            },
-        }
+        board = BoardWebSocketHandler.boards.get(board_id, BoardGameMaster())
+        response = board.extract_data()
 
-        self.write(response)
+        self.write(json.dumps(response))
         self.set_header("Content-Type", "application/json")
