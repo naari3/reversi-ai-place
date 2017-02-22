@@ -26,12 +26,37 @@ class BoardGameMaster(object):
         if player in self.players:
             self.players.remove(player)
 
-    def game_start(self):
-        self.status.start()
-
     def send_all(self, message):
         for p in self.players:
             p.write_message(message)
+
+    def extract_data(self, status=True):
+        meta_data = {
+            'status': 200 if status else 400
+        }
+        game_data = {
+            'board': self.board.export_board(),
+            **self.status.export_status(),
+        }
+
+        if self.status.finished:
+            score1 = (self.board.board == 1).sum()
+            score2 = (self.board.board == 2).sum()
+            game_data['result'] = {
+                'win': 'player1' if score1 > score2 else 'player2',
+                'lose': 'player1' if score1 < score2 else 'player2',
+                'draw': True if score1 == score2 else False,
+            }
+
+        data = {
+            "meta": meta_data,
+            "data": game_data,
+        }
+
+        return data
+
+    def game_start(self):
+        self.status.start()
 
     def pass_check(self, count=0):
         if count == 2:
@@ -59,34 +84,14 @@ class BoardGameMaster(object):
             else:
                 raise e
 
-        meta_data = {
-            'status': 200 if bool(reverse_num) else 400
-        }
-        game_data = {
-            'board': self.board.export_board(),
-            'move': {
-                'x': x,
-                'y': y,
-                'correct': bool(reverse_num),
-            },
-            **self.status.export_status()
-        }
-
-        if self.status.finished:
-            score1 = (self.board.board == 1).sum()
-            score2 = (self.board.board == 2).sum()
-            game_data['result'] = {
-                'win': 'player1' if score1 > score2 else 'player2',
-                'lose': 'player1' if score1 < score2 else 'player2',
-                'draw': True if score1 == score2 else False,
-            }
-
-        data = {
-            "meta": meta_data,
-            "data": game_data,
+        send_data = self.extract_data(bool(reverse_num))
+        send_data['data']['move'] = {
+            'x': x,
+            'y': y,
+            'correct': bool(reverse_num),
         }
 
         data_message = json.dumps(
-            data, sort_keys=True, ensure_ascii=False)
+            send_data, sort_keys=True, ensure_ascii=False)
         self.send_all(data_message)
         return bool(reverse_num)

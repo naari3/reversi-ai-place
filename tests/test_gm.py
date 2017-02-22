@@ -77,6 +77,33 @@ class TestGameMaster(object):
         for p in gm.players:
             assert p.message == message
 
+    def test_extract_data(self):
+        gm = BoardGameMaster(1)
+
+        correct_data = {
+            "meta": {
+                "status": 200,
+            },
+            "data": {
+                "board": [
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 1, 2, 0, 0, 0],
+                    [0, 0, 0, 2, 1, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0]
+                ],
+                "finished": False,
+                "started": False,
+                "turn": 0,
+                "turns": 0,
+            }
+        }
+
+        assert correct_data == gm.extract_data()
+
     def test_receive_move_valid(self):
         gm = BoardGameMaster(1)
 
