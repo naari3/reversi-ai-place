@@ -13,5 +13,5 @@ class BoardHandler(tornado.web.RequestHandler):
         board = BoardWebSocketHandler.boards.get(board_id, BoardGameMaster(board_id))
         response = board.extract_data()
 
-        self.write(json.dumps(response))
         self.set_header("Content-Type", "application/json")
+        self.write(json.dumps(response))
