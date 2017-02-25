@@ -9,8 +9,8 @@ from models import BoardGameMaster
 
 class BoardHandler(tornado.web.RequestHandler):
 
-    def get(self, borad_id):
-        board = BoardWebSocketHandler.boards.get(board_id, BoardGameMaster())
+    def get(self, board_id):
+        board = BoardWebSocketHandler.boards.get(board_id, BoardGameMaster(board_id))
         response = board.extract_data()
 
         self.write(json.dumps(response))
