@@ -13,7 +13,7 @@ class BoardWebSocketHandler(tornado.websocket.WebSocketHandler):
     board_id_dict = {}
 
     def open(self, board_id):
-        print(f"opened and connected to {board_id} by {self.request.remote_i}")
+        print(f"opened and connected to {board_id} by {self.request.remote_ip}")
         self.boards[board_id] = self.boards.get(
             board_id, BoardGameMaster(board_id))
         print(self.boards)
