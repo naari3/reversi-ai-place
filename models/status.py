@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from functools import wraps
 from errors import BoardStatusError
