@@ -4,4 +4,6 @@ pip==9.0.1
 pycodestyle==2.3.1
 pypugjs==4.0.0
 pytest==3.0.6
+python-dotenv==0.6.3
+redis==2.10.5
 tornado==4.4.2
