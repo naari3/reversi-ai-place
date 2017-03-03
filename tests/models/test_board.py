@@ -1,10 +1,8 @@
-# -*- config: utf-8 -*-
+# -*- coding: utf-8 -*-
 import sys
 from models import ReversiBoard
 
 import pytest
-
-sys.path.append('..')
 
 
 class TestBoard(object):

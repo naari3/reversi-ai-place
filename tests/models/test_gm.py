@@ -1,5 +1,4 @@
-# -*- config: utf-8 -*-
-
+# -*- coding: utf-8 -*-
 import sys
 from models import BoardGameMaster, ReversiStatus, ReversiBoard
 from errors import NoPutablePlaceError
@@ -7,8 +6,6 @@ from errors import NoPutablePlaceError
 import pytest
 
 import json
-
-sys.path.append('..')
 
 
 class _player(object):

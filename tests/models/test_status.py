@@ -1,11 +1,9 @@
-# -*- config: utf-8 -*-
+# -*- coding: utf-8 -*-
 import sys
 from models import ReversiStatus
 from errors import BoardStatusError
 
 import pytest
-
-sys.path.append('..')
 
 
 class TestStatus(object):
