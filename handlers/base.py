@@ -15,3 +15,6 @@ class BaseHandler(tornado.web.RequestHandler):
     def save_current_user(self, user):
         sid = str(uuid.uuid4())
         self.set_secure_cookie("sid", sid)
+
+    def destroy_current_user(self, user):
+        self.set_secure_cookie("sid", '')
