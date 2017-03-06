@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
