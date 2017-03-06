@@ -70,7 +70,13 @@ class TestSessionStore(object):
         self.redis.hset('test:testsid', 'testname', 'testdata')
         data = ss.get_session('testsid', 'testname')
 
-        assert 'testdata' == data
+        assert data == 'testdata'
+
+    def test_get_session_invalid(self):
+        ss = SessionStore(self.redis, **dict(key_prefix='test'))
+        data = ss.get_session('testsid', 'testname')
+
+        assert data is None
 
     def test_get_sessions(self):
         ss = SessionStore(self.redis, **dict(key_prefix='test'))
@@ -82,6 +88,12 @@ class TestSessionStore(object):
         data = ss.get_sessions('testsid')
 
         assert data == insert_data
+
+    def test_get_sessions_invalid(self):
+        ss = SessionStore(self.redis, **dict(key_prefix='test'))
+        data = ss.get_sessions('testsid')
+
+        assert data is None
 
     def test_delete_session(self):
         ss = SessionStore(self.redis, **dict(key_prefix='test'))

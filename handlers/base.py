@@ -2,19 +2,26 @@
 import tornado.escape
 import tornado.web
 
-import uuid
+from models import User, SessionStore, Session
 
 
 class BaseHandler(tornado.web.RequestHandler):
+
     def get_current_user(self):
-        user_json = self.get_secure_cookie("user")
-        if not user_json:
+        sid = self.get_secure_cookie("sid")
+        session = Session(self.application.session_store, sid)
+        user = User.get(twitter_id=session.data['twitter_id'])
+        if not user:
             return None
-        return tornado.escape.json_decode(user_json)
+
+        return user
+        # return tornado.escape.json_decode(sid)
 
     def save_current_user(self, user):
-        sid = str(uuid.uuid4())
-        self.set_secure_cookie("sid", sid)
+        session = Session(self.application.session_store)
+        session.data = user.fields()
+        session.save()
+        self.set_secure_cookie("sid", session.session_id)
 
     def destroy_current_user(self, user):
         self.set_secure_cookie("sid", '')

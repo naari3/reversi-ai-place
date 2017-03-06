@@ -19,12 +19,14 @@ class SessionStore(object):
         return uuid.uuid4().hex
 
     def get_session(self, sid, name):
-        return self.redis.hget(self.prefixed(sid), name).decode('utf-8')
+        data = self.redis.hget(self.prefixed(sid), name)
+        data = data.decode('utf-8') if data else None
+        return data
 
     def get_sessions(self, sid):
         data = self.redis.hgetall(self.prefixed(sid))
-        print(data)
-        return dict((item[0].decode('utf-8'), item[1].decode('utf-8')) for item in data.items())
+        data = dict((item[0].decode('utf-8'), item[1].decode('utf-8')) for item in data.items()) if data else None
+        return data
 
     def set_session(self, sid, name, data):
         expire = self.options['expire']

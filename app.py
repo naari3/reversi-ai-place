@@ -17,6 +17,9 @@ from tornado.web import url
 
 import json
 
+import redis
+
+from models import SessionStore
 from handlers import HomeHandler, BoardHandler, BoardWebSocketHandler, AuthHandler
 
 patch_tornado()
@@ -46,6 +49,8 @@ class Application(tornado.web.Application):
             xsrf_cookies=True,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
+        self.redis = redis.StrictRedis(host=os.environ.get("REDIS_HOST"), port=int(os.environ.get("REDIS_PORT")), password=os.environ.get("REDIS_PASS", None))
+        self.session_store = SessionStore(self.redis)
 
 
 if __name__ == '__main__':
