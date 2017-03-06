@@ -21,11 +21,24 @@ class SessionStore(object):
     def get_session(self, sid, name):
         return self.redis.hget(self.prefixed(sid), name).decode('utf-8')
 
+    def get_sessions(self, sid):
+        data = self.redis.hgetall(self.prefixed(sid))
+        print(data)
+        return dict((item[0].decode('utf-8'), item[1].decode('utf-8')) for item in data.items())
+
     def set_session(self, sid, name, data):
         expire = self.options['expire']
         response = self.redis.hset(self.prefixed(sid), name, data)
-        if expire:
-            return self.redis.expire(self.prefixed(sid), expire) and response
+        if expire and response:
+            return self.redis.expire(self.prefixed(sid), expire)
+        else:
+            return response
+
+    def set_sessions(self, sid, data):
+        expire = self.options['expire']
+        response = self.redis.hmset(self.prefixed(sid), data)
+        if expire and response:
+            return self.redis.expire(self.prefixed(sid), expire)
         else:
             return response
 
