@@ -44,3 +44,16 @@ class SessionStore(object):
 
     def delete_session(self, sid):
         return self.redis.delete(self.prefixed(sid))
+
+
+class Session(object):
+
+    def __init__(self, session_store, session_id=None):
+        self.store = session_store
+        self.session_id = session_id if session_id else self.store.generate_sid()
+        self.data = {}
+        if session_id:
+            self.data = self.store.get_sessions(self.session_id)
+
+    def save(self):
+        self.store.set_sessions(self.session_id, self.data.items())
