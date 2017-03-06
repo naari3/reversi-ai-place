@@ -32,3 +32,15 @@ class TestUser(object):
         assert user.name is None
         assert user.created_at == datetime_str
         assert user.updated_at == datetime_str
+
+    def test_fields(self):
+        datetime_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        data = dict(
+            id=1,
+            twitter_id=1,
+            name="test",
+            created_at=datetime_str,
+            updated_at=datetime_str,
+        )
+        user = User(**data)
+        assert user.fields() == data

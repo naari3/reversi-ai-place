@@ -18,8 +18,11 @@ class User(BaseModel):
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
 
-    # def __init__(self, user_data={}):
-    #     self.twitter_id = user_data.get("twitter_id", None)
-    #     self.name = user_data.get("name", None)
-    #     self.created_at = user_data.get("created_at", None)
-    #     self.updated_at = user_data.get("updated_at", None)
+    def fields(self):
+        return {
+            'id': self.id,
+            'twitter_id': self.twitter_id,
+            'name': self.name,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+        }
