@@ -38,7 +38,7 @@ class TestSession(object):
 
         session = Session(self.session_store, sid)
 
-        assert session.data['twitter_id'] == 123123123
+        assert session.data['twitter_id'] == '123123123'
 
     def test_delete(self):
         session = Session(self.session_store)

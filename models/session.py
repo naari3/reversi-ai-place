@@ -56,4 +56,4 @@ class Session(object):
             self.data = self.store.get_sessions(self.session_id)
 
     def save(self):
-        self.store.set_sessions(self.session_id, self.data.items())
+        self.store.set_sessions(self.session_id, self.data)
