@@ -1,6 +1,8 @@
 autopep8==1.2.4
 numpy==1.12.0
+peewee==2.9.0
 pip==9.0.1
+psycopg2==2.7
 pycodestyle==2.3.1
 pypugjs==4.0.0
 pytest==3.0.6
