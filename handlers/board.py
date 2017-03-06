@@ -4,11 +4,13 @@ import tornado.websocket
 import json
 
 from .board_ws import BoardWebSocketHandler
-from models import BoardGameMaster
+from models import BoardGameMaster, User
+from .base import BaseHandler
 
 
-class BoardHandler(tornado.web.RequestHandler):
+class BoardHandler(BaseHandler):
 
+    @tornado.web.authenticated
     def get(self, board_id):
         board = BoardWebSocketHandler.boards.get(board_id, BoardGameMaster(board_id))
         response = board.extract_data()
