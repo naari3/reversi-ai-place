@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-from models import SessionStore
+from models import SessionStore, Session
 
 import redis
 import os
@@ -20,43 +20,20 @@ class TestSession(object):
     def setup_class(cls):
         cls.redis = redis.StrictRedis(host=os.environ.get("REDIS_HOST"), port=int(os.environ.get("REDIS_PORT")), password=os.environ.get("REDIS_PASS", None))
         cls.redis.flushall()
+        cls.session_store = SessionStore(cls.redis, **dict(key_prefix='test', expire=0))
 
-    def test_prefixed(self):
-        ss = SessionStore(self.redis, **dict(key_prefix='test'))
-        prxd = ss.prefixed('testsid')
+    def test_initialize(self):
+        session = Session(self.session_store)
+        assert isinstance(session.session_id, str)
 
-        assert prxd == 'test:testsid'
+        sid = 'test'
+        session = Session(self.session_store, sid)
+        assert session.session_id == sid
 
-    def test_gen_sid(self):
-        ss = SessionStore(self.redis, **dict(key_prefix='test'))
-        sid = ss.generate_sid()
+    def test_save(self):
+        session = Session(self.session_store)
+        pass
 
-        assert isinstance(sid, str)
-
-    def test_set_session(self):
-        ss = SessionStore(self.redis, **dict(key_prefix='test', expire=0))
-        ss.set_session('testsid', 'testname', 'testdata')
-        data = self.redis.hget('test:testsid', 'testname')
-
-        assert data == b'testdata'
-
-    def test_set_session_with_expire(self):
-        ss = SessionStore(self.redis, **dict(key_prefix='test', expire=1000))
-        ss.set_session('testsid', 'testname', 'testdata')
-        data = self.redis.hget('test:testsid', 'testname')
-
-        assert data == b'testdata'
-        assert self.redis.ttl('test:testsid')
-
-    def test_get_session(self):
-        ss = SessionStore(self.redis, **dict(key_prefix='test'))
-        self.redis.hset('test:testsid', 'testname', 'testdata')
-        data = ss.get_session('testsid', 'testname')
-
-        assert 'testdata' == data
-
-    def test_delete_session(self):
-        ss = SessionStore(self.redis, **dict(key_prefix='test'))
-        ss.delete_session('testsid')
-
-        assert self.redis.hgetall('testsid') == {}
+    def test_delete(self):
+        session = Session(self.session_store)
+        pass
