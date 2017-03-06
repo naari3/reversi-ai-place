@@ -6,8 +6,12 @@ python:
 install:
   - pip install -r requirements.txt
 
+services:
+  - postgresql
+
 before_script:
   - sudo redis-server /etc/redis/redis.conf --port 6379
+  - psql -f migrate.sql -U postgres
 
 script:
   - touch .env
