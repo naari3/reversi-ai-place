@@ -9,9 +9,13 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def get_current_user(self):
         sid = self.get_secure_cookie("sid")
+        if not sid:
+            return None
+        sid = sid.decode('utf-8')
         session = Session(self.application.session_store, sid)
-        user = User.get(twitter_id=session.data['twitter_id'])
-        if not user:
+        if session.data.get('twitter_id'):
+            user = User.get(twitter_id=session.data['twitter_id'])
+        else:
             return None
 
         return user
