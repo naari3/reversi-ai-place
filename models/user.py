@@ -14,7 +14,7 @@ class BaseModel(Model):
 class User(BaseModel):
 
     twitter_id = BigIntegerField()
-    name = CharField()
+    name = CharField(null=True)
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
 
