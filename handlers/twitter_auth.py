@@ -26,7 +26,7 @@ class AuthHandler(BaseHandler, tornado.auth.TwitterMixin):
             reversi_user.name = user['name']
             reversi_user.save()
 
-            self.save_current_user(user)
+            self.save_current_user(reversi_user)
             self.redirect(self.get_argument("next", "/"))
 
         self.authenticate_redirect()
