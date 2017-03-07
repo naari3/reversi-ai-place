@@ -33,7 +33,7 @@ class TestSession(object):
     def test_save(self):
         session = Session(self.session_store)
         sid = session.session_id
-        session.data['twitter_id'] = 123123123
+        session.data['twitter_id'] = '123123123'
         session.save()
 
         session = Session(self.session_store, sid)
