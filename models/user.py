@@ -5,13 +5,10 @@ from peewee import *
 import datetime
 
 
-class BaseModel(Model):
+class User(Model):
 
     class Meta:
         database = db
-
-
-class User(BaseModel):
 
     twitter_id = BigIntegerField()
     name = CharField(null=True)
