@@ -52,6 +52,14 @@ class AccessToken(object):
 
         return result1 and result2 and result3
 
+    def refresh(self, refresh_token):
+        access_token = self.access_token_store.get_session(self.prefixed_for_refresh(refresh_token), 'access_token')
+        at = self.find_by_access_token(access_token)
+        user_id = at.user_id
+        at.revoke()
+        tokens = [self.generate_access_token() for i in range(2)]
+        return AccessToken(self.access_token_store, access_token=tokens[0], user_id=user_id, refresh_token=tokens[1])
+
     def verify(self):
         expire = self.access_token_store.get_expire(self.access_token)
         return {
