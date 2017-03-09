@@ -47,11 +47,10 @@ class AccessToken(object):
     def save(self):
         result1 = self.access_token_store.set_session(self.access_token, 'user_id', self.user_id)
         result2 = self.access_token_store.set_session(self.access_token, 'refresh_token', self.refresh_token)
-        return result1 and result2
 
-    def refresh(self):
-        self.access_token = self.generate_access_token()
-        return self.save()
+        result3 = self.access_token_store.set_session(self.prefixed_for_refresh(self.refresh_token), 'access_token', self.access_token)
+
+        return result1 and result2 and result3
 
     def verify(self):
         expire = self.access_token_store.get_expire(self.access_token)
