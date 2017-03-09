@@ -23,17 +23,19 @@ class AccessTokenStore(SessionStore):
 
 class AccessToken(object):
 
-    def __init__(self, access_token_store, access_token=None, user_id=None):
+    def __init__(self, access_token_store, access_token=None, user_id=None, refresh_token=None):
         self.access_token_store = access_token_store
         self.access_token = access_token if access_token else self.generate_access_token()
         self.user_id = user_id if user_id else None
+        self.refresh_token = refresh_token if refresh_token else self.generate_access_token()
 
     def generate_access_token(self):
         return base64.b64encode(binascii.hexlify(os.urandom(128))).decode('utf-8')
 
     def find_by_access_token(self, access_token):
         user_id = self.access_token_store.get_session(access_token, 'user_id')
-        return AccessToken(self.access_token_store, access_token, user_id)
+        refresh_token = self.access_token_store.get_session(access_token, 'refresh_token')
+        return AccessToken(self.access_token_store, access_token=access_token, user_id=user_id, refresh_token=refresh_token)
 
     def save(self):
         return self.access_token_store.set_session(self.access_token, 'user_id', self.user_id)
