@@ -25,17 +25,26 @@ class TestAccessToken(object):
         assert isinstance(AccessToken(self.access_token_store).generate_access_token(), str)
 
     def test_initialize(self):
-        user_id = 1
+        user_id = '1'
         access_token = AccessToken(self.access_token_store, user_id=user_id)
 
         assert isinstance(access_token.access_token, str)
         assert access_token.user_id == user_id
 
-    def test_find_by_access_token(self):
-        pass
-
     def test_save(self):
-        pass
+        user_id = '1'
+        access_token = AccessToken(self.access_token_store, user_id=user_id)
+        access_token.save()
+
+        fetched_user_id = self.access_token_store.get_session(access_token.access_token, 'user_id')
+
+        assert user_id == fetched_user_id
+
+    def test_find_by_access_token(self):
+        user_id = '1'
+        access_token = AccessToken(self.access_token_store, user_id=user_id)
+
+        # at = AccessToken(self.access_token_store).find_by_access_token()
 
     def test_refresh(self):
         pass
