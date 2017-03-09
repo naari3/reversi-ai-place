@@ -37,3 +37,13 @@ class OAuthAccessToken(BaseHandler):
 
         self.set_header("Content-Type", "application/json")
         self.write(json.dumps(data))
+
+
+class OAuthRevoke(BaseHandler):
+
+    def post(self):
+        refresh_token = self.get_argument("refresh_token")
+        access_token = AccessToken(self.application.access_token_store).refresh(refresh_token)
+        access_token.revoke()
+
+        self.write('')
