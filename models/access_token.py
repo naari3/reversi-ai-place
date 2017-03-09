@@ -29,6 +29,10 @@ class AccessToken(object):
         self.user_id = user_id if user_id else None
         self.refresh_token = refresh_token if refresh_token else self.generate_access_token()
 
+    @classmethod
+    def prefixed_for_refresh(self, refresh_token):
+        return f'{"refresh_token"}:{refresh_token}'
+
     def generate_access_token(self):
         return base64.b64encode(binascii.hexlify(os.urandom(128))).decode('utf-8')
 
