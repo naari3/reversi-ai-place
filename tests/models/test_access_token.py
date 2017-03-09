@@ -66,7 +66,14 @@ class TestAccessToken(object):
         assert fail_at.user_id is None
 
     def test_verify(self):
-        pass
+        user_id = '1'
+        access_token = AccessToken(self.access_token_store, user_id=user_id)
+        access_token.save()
+
+        fetched_data = access_token.verify()
+
+        assert fetched_data['client_id'] == user_id
+        assert 0 <= fetched_data['expires_in'] <= 3600
 
     def test_revoke(self):
         pass
