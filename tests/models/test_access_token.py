@@ -37,8 +37,14 @@ class TestAccessToken(object):
         access_token.save()
 
         fetched_user_id = self.access_token_store.get_session(access_token.access_token, 'user_id')
+        fetched_refresh_token = self.access_token_store.get_session(access_token.access_token, 'refresh_token')
+        fetched_access_token = self.access_token_store.get_session(access_token.prefixed_for_refresh(access_token.refresh_token), 'access_token')
+
+        print(fetched_user_id, fetched_access_token, fetched_refresh_token)
 
         assert user_id == fetched_user_id
+        assert access_token.refresh_token == fetched_refresh_token
+        assert access_token.refresh_token == fetched_refresh_token
 
     def test_find_by_access_token(self):
         user_id = '1'
