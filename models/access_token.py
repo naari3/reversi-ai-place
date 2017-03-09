@@ -20,6 +20,9 @@ class AccessTokenStore(SessionStore):
     def get_expire(self, sid):
         return self.redis.ttl(self.prefixed(sid))
 
+    def set_expire(self, sid, time):
+        return self.redis.expire(self.prefixed(sid), time)
+
 
 class AccessToken(object):
 
@@ -58,4 +61,4 @@ class AccessToken(object):
         }
 
     def revoke(self):
-        pass
+        return self.access_token_store.set_expire(self.access_token, 0)
