@@ -84,7 +84,7 @@ class TestAccessToken(object):
         access_token = AccessToken(self.access_token_store, user_id=user_id)
         access_token.save()
 
-        access_token.revoke()
+        assert access_token.revoke()
 
         failed_user_id = self.access_token_store.get_session(access_token.access_token, 'user_id')
 
