@@ -51,6 +51,10 @@ class TestAccessToken(object):
         assert at.access_token == access_token.access_token
         assert at.refresh_token == access_token.refresh_token
 
+    def test_prefixed_for_refresh(self):
+        result = AccessToken.prefixed_for_refresh('aa')
+        assert result == 'refresh_token:aa'
+
     def test_refresh(self):
         user_id = '1'
         access_token = AccessToken(self.access_token_store, user_id=user_id)
