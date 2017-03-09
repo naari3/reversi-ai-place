@@ -38,7 +38,9 @@ class AccessToken(object):
         return AccessToken(self.access_token_store, access_token=access_token, user_id=user_id, refresh_token=refresh_token)
 
     def save(self):
-        return self.access_token_store.set_session(self.access_token, 'user_id', self.user_id)
+        result1 = self.access_token_store.set_session(self.access_token, 'user_id', self.user_id)
+        result2 = self.access_token_store.set_session(self.access_token, 'refresh_token', self.refresh_token)
+        return result1 and result2
 
     def refresh(self):
         self.access_token = self.generate_access_token()
