@@ -19,7 +19,7 @@ import json
 
 import redis
 
-from models import SessionStore
+from models import SessionStore, AccessTokenStore
 from handlers import HomeHandler, BoardHandler, BoardWebSocketHandler, AuthHandler, MyPageHandler
 
 patch_tornado()
@@ -52,6 +52,7 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers, **settings)
         self.redis = redis.StrictRedis(host=os.environ.get("REDIS_HOST"), port=int(os.environ.get("REDIS_PORT")), password=os.environ.get("REDIS_PASS", None))
         self.session_store = SessionStore(self.redis)
+        self.access_token_store = AccessTokenStore(self.redis)
 
 
 if __name__ == '__main__':

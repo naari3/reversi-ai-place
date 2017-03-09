@@ -2,7 +2,7 @@
 import tornado.escape
 import tornado.web
 
-from models import User, SessionStore, Session
+from models import User, Session
 
 
 class BaseHandler(tornado.web.RequestHandler):
