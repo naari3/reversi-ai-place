@@ -20,7 +20,7 @@ import json
 import redis
 
 from models import SessionStore
-from handlers import HomeHandler, BoardHandler, BoardWebSocketHandler, AuthHandler
+from handlers import HomeHandler, BoardHandler, BoardWebSocketHandler, AuthHandler, MyPageHandler
 
 patch_tornado()
 
@@ -34,6 +34,7 @@ class Application(tornado.web.Application):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         handlers = [
             url(r'/', HomeHandler, name='home'),
+            url(r'/mypage', MyPageHandler, name='mypage'),
             url(r"/auth/login", AuthHandler, name='auth_login'),
             url(r'/v1/board/([0-9]+)', BoardHandler, name='board'),
             url(r'/v1/board/([0-9]+)/ws', BoardWebSocketHandler, name='board_ws'),
