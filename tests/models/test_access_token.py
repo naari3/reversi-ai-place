@@ -52,7 +52,18 @@ class TestAccessToken(object):
         assert at.refresh_token == access_token.refresh_token
 
     def test_refresh(self):
-        pass
+        user_id = '1'
+        access_token = AccessToken(self.access_token_store, user_id=user_id)
+        access_token.save()
+
+        at = AccessToken(self.access_token_store).refresh(access_token.refresh_token)
+
+        assert at.user_id == access_token.user_id
+        assert at.access_token != access_token.access_token
+        assert at.refresh_token != access_token.refresh_token
+
+        fail_at = AccessToken(self.access_token_store).find_by_access_token(access_token.access_token)
+        assert fail_at.user_id is None
 
     def test_verify(self):
         pass
