@@ -20,7 +20,10 @@ import json
 import redis
 
 from models import SessionStore, AccessTokenStore
-from handlers import HomeHandler, BoardHandler, BoardWebSocketHandler, AuthHandler, MyPageHandler
+from handlers import HomeHandler, MyPageHandler
+from handlers import BoardHandler, BoardWebSocketHandler
+from handlers import AuthHandler
+from handlers import OAuthVerify, OAuthAccessToken, OAuthRevoke
 
 patch_tornado()
 
@@ -38,6 +41,9 @@ class Application(tornado.web.Application):
             url(r"/auth/login", AuthHandler, name='auth_login'),
             url(r'/v1/board/([0-9]+)', BoardHandler, name='board'),
             url(r'/v1/board/([0-9]+)/ws', BoardWebSocketHandler, name='board_ws'),
+            url(r'/v1/oauth/verify', OAuthVerify, name='oauth_verify'),
+            url(r'/v1/oauth/accessToken', OAuthAccessToken, name='oauth_access_token'),
+            url(r'/v1/oauth/revoke', OAuthRevoke, name='oauth_revoke'),
         ]
         settings = dict(
             template_path=os.path.join(BASE_DIR, 'templates'),
