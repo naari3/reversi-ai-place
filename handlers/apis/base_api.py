@@ -20,7 +20,7 @@ class BaseAPIHandler(tornado.web.RequestHandler):
             if authorization:
                 user = self.get_current_user(authorization)
                 if user:
-                    return method(self, *args, **kwargs)
+                    method(self, *args, **kwargs)
             raise HTTPError(403)
         return wrapper
 

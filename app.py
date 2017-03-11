@@ -23,6 +23,7 @@ from models import SessionStore, AccessTokenStore
 from handlers import HomeHandler, MyPageHandler
 from handlers import BoardHandler, BoardWebSocketHandler
 from handlers import AuthHandler
+from handlers import BoardAPIHandler, BoardWebSocketAPIHandler
 from handlers import OAuthVerify, OAuthAccessToken, OAuthRevoke
 
 patch_tornado()
@@ -39,8 +40,8 @@ class Application(tornado.web.Application):
             url(r'/', HomeHandler, name='home'),
             url(r'/mypage', MyPageHandler, name='mypage'),
             url(r"/auth/login", AuthHandler, name='auth_login'),
-            url(r'/v1/board/([0-9]+)', BoardHandler, name='board'),
-            url(r'/v1/board/([0-9]+)/ws', BoardWebSocketHandler, name='board_ws'),
+            url(r'/v1/board/([0-9]+)', BoardAPIHandler, name='board_api'),
+            url(r'/v1/board/([0-9]+)/ws', BoardWebSocketAPIHandler, name='board_ws_api'),
             url(r'/v1/oauth/verify', OAuthVerify, name='oauth_verify'),
             url(r'/v1/oauth/accessToken', OAuthAccessToken, name='oauth_access_token'),
             url(r'/v1/oauth/revoke', OAuthRevoke, name='oauth_revoke'),
