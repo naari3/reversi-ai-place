@@ -41,10 +41,20 @@ class BoardGameMaster(object):
             p['ws'].write_message(message)
 
     def extract_data(self, status=True):
+        user_data = {
+            'first': {
+                'id': self.players[0]['user'].id,
+            } if len(self.players) >= 1 else None,
+            'second': {
+                'id': self.players[1]['user'].id,
+            } if len(self.players) >= 2 else None,
+        }
+
         meta_data = {
             'status': 200 if status else 400
         }
         game_data = {
+            'users': user_data,
             'board': self.board.export_board(),
             **self.status.export_status(),
         }
