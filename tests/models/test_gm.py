@@ -128,6 +128,10 @@ class TestGameMaster(object):
                 "status": 200,
             },
             "data": {
+                "users": {
+                    "first": None,
+                    "second": None,
+                },
                 "board": [
                     [0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -168,6 +172,14 @@ class TestGameMaster(object):
                 "status": 200,
             },
             "data": {
+                "users": {
+                    "first": {
+                        "id": 1,
+                    },
+                    "second": {
+                        "id": 2,
+                    },
+                },
                 "board": [
                     [0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -213,6 +225,14 @@ class TestGameMaster(object):
                 "status": 400,
             },
             "data": {
+                "users": {
+                    "first": {
+                        "id": 1,
+                    },
+                    "second": {
+                        "id": 2,
+                    },
+                },
                 "board": [
                     [0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -305,6 +325,14 @@ class TestGameMaster(object):
                 "status": 200,
             },
             "data": {
+                "users": {
+                    "first": {
+                        "id": 1,
+                    },
+                    "second": {
+                        "id": 2,
+                    },
+                },
                 "board": [
                     [1, 1, 1, 1, 1, 1, 1, 1],
                     [1, 1, 1, 1, 1, 1, 1, 1],
@@ -365,6 +393,14 @@ class TestGameMaster(object):
                 "status": 200,
             },
             "data": {
+                "users": {
+                    "first": {
+                        "id": 1,
+                    },
+                    "second": {
+                        "id": 2,
+                    },
+                },
                 "board": [
                     [1, 1, 1, 1, 1, 1, 1, 0],
                     [1, 1, 1, 1, 1, 1, 1, 0],
