@@ -15,13 +15,22 @@ class BoardGameMaster(object):
 
     def add_player(self, player):
         if len(self.players) < 2:
-            self.players.append(player)
-            if len(self.players) == 2:
-                self.game_start()
-            return True
+            duplicated = False
+
+            for p in self.players:
+                if not duplicated:
+                    duplicated = player['user'] == p['user']
+
+            if not duplicated:
+                self.players.append(player)
+                if len(self.players) == 2:
+                    self.game_start()
+                return True
+            else:
+                print('this user is already entered this board')
         else:
             print(f'{self.board_id} is already full')
-            return False
+        return False
 
     def remove_player(self, player):
         if player in self.players:
@@ -29,7 +38,7 @@ class BoardGameMaster(object):
 
     def send_all(self, message):
         for p in self.players:
-            p.write_message(message)
+            p['ws'].write_message(message)
 
     def extract_data(self, status=True):
         meta_data = {
