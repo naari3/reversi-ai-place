@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-from models import BoardGameMaster, ReversiStatus, ReversiBoard
+from models import BoardGameMaster, ReversiStatus, ReversiBoard, User
 from errors import NoPutablePlaceError
 
 import pytest
@@ -19,6 +19,11 @@ class _player(object):
 
 class TestGameMaster(object):
 
+    def setup_class(cls):
+        cls.user1 = User.get_or_create(id=1)
+        cls.user2 = User.get_or_create(id=2)
+        cls.user3 = User.get_or_create(id=3)
+
     def test_instance(self):
         gm = BoardGameMaster(1)
         assert gm.board_id == 1
@@ -27,9 +32,18 @@ class TestGameMaster(object):
 
     def test_add_player(self):
         gm = BoardGameMaster(1)
-        player1 = _player()
-        player2 = _player()
-        player3 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
+        player3 = {
+            'ws': _player(),
+            'user': self.user3,
+        }
 
         assert gm.add_player(player1) is True
         assert gm.add_player(player2) is True
@@ -39,10 +53,30 @@ class TestGameMaster(object):
         assert player2 in gm.players
         assert player3 not in gm.players
 
+    def test_add_player_duplicate(self):
+        gm = BoardGameMaster(1)
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player1_2 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+
+        assert gm.add_player(player1) is True
+        assert gm.add_player(player1_2) is False
+
     def test_remove_player(self):
         gm = BoardGameMaster(1)
-        player1 = _player()
-        player2 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
         gm.add_player(player1)
         gm.add_player(player2)
 
@@ -54,8 +88,14 @@ class TestGameMaster(object):
 
     def test_game_start(self):
         gm = BoardGameMaster(1)
-        player1 = _player()
-        player2 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
         gm.add_player(player1)
         gm.add_player(player2)
         assert gm.status.started is True
@@ -63,8 +103,14 @@ class TestGameMaster(object):
     def test_send_all(self):
         gm = BoardGameMaster(1)
 
-        player1 = _player()
-        player2 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
         gm.add_player(player1)
         gm.add_player(player2)
 
@@ -104,8 +150,14 @@ class TestGameMaster(object):
     def test_receive_move_valid(self):
         gm = BoardGameMaster(1)
 
-        player1 = _player()
-        player2 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
         gm.add_player(player1)
         gm.add_player(player2)
 
@@ -143,8 +195,14 @@ class TestGameMaster(object):
     def test_receive_move_invalid(self):
         gm = BoardGameMaster(1)
 
-        player1 = _player()
-        player2 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
         gm.add_player(player1)
         gm.add_player(player2)
 
@@ -182,8 +240,14 @@ class TestGameMaster(object):
     def test_receive_move_pass(self):
         gm = BoardGameMaster(1)
 
-        player1 = _player()
-        player2 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
         gm.add_player(player1)
         gm.add_player(player2)
 
@@ -213,8 +277,14 @@ class TestGameMaster(object):
     def test_finish1(self):
         gm = BoardGameMaster(1)
 
-        player1 = _player()
-        player2 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
         gm.add_player(player1)
         gm.add_player(player2)
 
@@ -267,8 +337,14 @@ class TestGameMaster(object):
     def test_finish2(self):
         gm = BoardGameMaster(1)
 
-        player1 = _player()
-        player2 = _player()
+        player1 = {
+            'ws': _player(),
+            'user': self.user1,
+        }
+        player2 = {
+            'ws': _player(),
+            'user': self.user2,
+        }
         gm.add_player(player1)
         gm.add_player(player2)
 
