@@ -118,7 +118,7 @@ class TestGameMaster(object):
         gm.send_all(message)
 
         for p in gm.players:
-            assert p.message == message
+            assert p['ws'].message == message
 
     def test_extract_data(self):
         gm = BoardGameMaster(1)
@@ -190,7 +190,7 @@ class TestGameMaster(object):
             }
         }
         for p in gm.players:
-            assert json.loads(p.message) == correct_data
+            assert json.loads(p['ws'].message) == correct_data
 
     def test_receive_move_invalid(self):
         gm = BoardGameMaster(1)
@@ -235,7 +235,7 @@ class TestGameMaster(object):
             }
         }
         for p in gm.players:
-            assert json.loads(p.message) == correct_data
+            assert json.loads(p['ws'].message) == correct_data
 
     def test_receive_move_pass(self):
         gm = BoardGameMaster(1)
@@ -332,7 +332,7 @@ class TestGameMaster(object):
             }
         }
         for p in gm.players:
-            assert json.loads(p.message) == correct_data
+            assert json.loads(p['ws'].message) == correct_data
 
     def test_finish2(self):
         gm = BoardGameMaster(1)
@@ -392,4 +392,4 @@ class TestGameMaster(object):
             }
         }
         for p in gm.players:
-            assert json.loads(p.message) == correct_data
+            assert json.loads(p['ws'].message) == correct_data
