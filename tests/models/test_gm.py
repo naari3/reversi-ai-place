@@ -20,9 +20,9 @@ class _player(object):
 class TestGameMaster(object):
 
     def setup_class(cls):
-        cls.user1 = User.get_or_create(id=1)
-        cls.user2 = User.get_or_create(id=2)
-        cls.user3 = User.get_or_create(id=3)
+        cls.user1 = User.get_or_create(id=1)[0]
+        cls.user2 = User.get_or_create(id=2)[0]
+        cls.user3 = User.get_or_create(id=3)[0]
 
     def test_instance(self):
         gm = BoardGameMaster(1)
