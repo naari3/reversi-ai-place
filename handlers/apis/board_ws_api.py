@@ -22,7 +22,11 @@ class BoardWebSocketAPIHandler(BaseAPIHandler):
         print(self.boards)
         self.board_id_dict[self] = board_id  # 逆引き: ダサい
         # 追加できたらTrue返ってくる
-        if not self.boards[board_id].add_player(self):
+        player = {
+            'ws': self,
+            'user': self.get_token_user(),
+        }
+        if not self.boards[board_id].add_player(player):
             self.close(code=1003, reason="You can't join to [{board_id}]")
 
     def on_close(self):
