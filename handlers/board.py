@@ -12,7 +12,7 @@ class BoardHandler(BaseHandler):
 
     @tornado.web.authenticated
     def get(self, board_id):
-        board = BoardWebSocketHandler.boards.get(board_id, BoardGameMaster(board_id))
+        board = self.application.boards.get(board_id, BoardGameMaster(board_id))
         response = board.extract_data()
 
         self.set_header("Content-Type", "application/json")

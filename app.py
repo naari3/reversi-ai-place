@@ -40,6 +40,8 @@ class Application(tornado.web.Application):
             url(r'/', HomeHandler, name='home'),
             url(r'/mypage', MyPageHandler, name='mypage'),
             url(r"/auth/login", AuthHandler, name='auth_login'),
+            url(r'/board/([0-9]+)', BoardHandler, name='board'),
+            url(r'/board/([0-9]+)/ws', BoardWebSocketHandler, name='board_ws'),
             url(r'/v1/board/([0-9]+)', BoardAPIHandler, name='board_api'),
             url(r'/v1/board/([0-9]+)/ws', BoardWebSocketAPIHandler, name='board_ws_api'),
             url(r'/v1/oauth/verify', OAuthVerify, name='oauth_verify'),
@@ -60,6 +62,8 @@ class Application(tornado.web.Application):
         self.redis = redis.StrictRedis(host=os.environ.get("REDIS_HOST"), port=int(os.environ.get("REDIS_PORT")), password=os.environ.get("REDIS_PASS", None))
         self.session_store = SessionStore(self.redis)
         self.access_token_store = AccessTokenStore(self.redis)
+        self.boards = {}
+        self.board_id_dict = {}
 
 
 if __name__ == '__main__':
