@@ -93,3 +93,5 @@ ENV/
 .ropeproject
 
 .DS_Store
+
+sample_bot
