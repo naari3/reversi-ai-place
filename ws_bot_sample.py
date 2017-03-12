@@ -38,5 +38,5 @@ class SampleReversiBot(object):
         print('connected streaming server')
 
 
-access_token = 'OTBjZmYzMDRkZGMxYjU5NTE1Y2M4OTJhZTAwNThkNDFkM2I4YmUwZDkyMzNkN2Y0ZmVjOWNmNjA5Mjk4NTRhYTc0Njk0OWFlM2MzMjYwMTdjZjU2OGJiMjQ2ZDM4NDkzOWQ1NmQ3NjYxYzkzZGRiMDViNmY3ODI3YTZhYjJhMDEyYTlkOWQyOTc1OWMyOGU0NDg0YjY4NWVlNzc3MDI3NDgwNzAzZjNhMTc5NDQyNTdhZmIxN2M0MzFiZmVhNDk0NzI0OTlkYzYwMjg0NzJlN2YzMDQwOGMzZjdlMTNkZjFkMzk5MDJjY2FiM2YzNDcxODE4NTg5MjRkOGZkNTM3Mw=='
+access_token = ''
 bot = SampleReversiBot(11, access_token)
