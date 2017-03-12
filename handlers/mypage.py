@@ -20,6 +20,7 @@ class MyPageHandler(BaseHandler):
     def post(self):
         user = self.get_current_user()
         access_token = AccessToken(self.application.access_token_store, user_id=user.id)
+        access_token.save()
         data = {
             "user": user,
             "access_token": access_token,
