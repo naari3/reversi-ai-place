@@ -39,7 +39,7 @@ class BoardWebSocketAPIHandler(BaseAPIWebSocketHandler):
         try:
             if input_data.get('x', False) and input_data.get('y', False):
                 self.application.boards[board_id].receive_move(
-                    self, input_data['x'], input_data['y'])
+                    self.get_token_user(), input_data['x'], input_data['y'])
             else:
                 data = self.application.boards[board_id].extract_data()
                 data['meta'] = {

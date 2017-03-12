@@ -169,7 +169,7 @@ class TestGameMaster(object):
         gm.add_player(player1)
         gm.add_player(player2)
 
-        assert gm.receive_move(player1_ws, 4, 2) is True
+        assert gm.receive_move(self.user1, 4, 2) is True
 
         correct_data = {
             "meta": {
@@ -222,7 +222,7 @@ class TestGameMaster(object):
         gm.add_player(player1)
         gm.add_player(player2)
 
-        assert gm.receive_move(player1, 0, 0) is False
+        assert gm.receive_move(self.user1, 0, 0) is False
 
         correct_data = {
             "meta": {
@@ -286,16 +286,16 @@ class TestGameMaster(object):
         gm.board.board[48:56] = [0, 0, 0, 2, 2, 2, 2, 1]
         gm.board.board[56:64] = [0, 0, 0, 0, 0, 0, 0, 1]
 
-        gm.receive_move(player1, 5, 7)
+        gm.receive_move(self.user1, 5, 7)
         assert gm.status.turn == 1
 
-        gm.receive_move(player1, 3, 7)
+        gm.receive_move(self.user1, 3, 7)
         assert gm.status.turn == 1
 
-        gm.receive_move(player1, 2, 6)
+        gm.receive_move(self.user1, 2, 6)
         assert gm.status.turn == 1
 
-        gm.receive_move(player1, 7, 3)
+        gm.receive_move(self.user1, 7, 3)
         assert gm.status.turn == 1
 
     def test_finish1(self):
@@ -322,7 +322,7 @@ class TestGameMaster(object):
         gm.board.board[56:64] = [1, 1, 1, 1, 1, 1, 1, 0]
 
         print(gm.status.export_status())
-        gm.receive_move(player1, 7, 7)
+        gm.receive_move(self.user1, 7, 7)
 
         correct_data = {
             "meta": {
@@ -390,7 +390,7 @@ class TestGameMaster(object):
         gm.board.board[56:64] = [1, 1, 1, 1, 1, 1, 1, 1]
 
         print(gm.status.export_status())
-        gm.receive_move(player1, 7, 5)
+        gm.receive_move(self.user1, 7, 5)
 
         correct_data = {
             "meta": {

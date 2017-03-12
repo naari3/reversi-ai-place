@@ -96,10 +96,10 @@ class BoardGameMaster(object):
     def finish(self):
         self.status.finish()
 
-    def receive_move(self, player, x, y):
+    def receive_move(self, user, x, y):
         ind = None
         for i, p in enumerate(self.players):
-            if p['ws'] == player:
+            if p['user'] == user:
                 ind = i + 1
         place = x + y * 8
         reverse_num = 0
