@@ -32,9 +32,13 @@ class BoardGameMaster(object):
             print(f'{self.board_id} is already full')
         return False
 
-    def remove_player(self, player):
-        if player in self.players:
-            self.players.remove(player)
+    def remove_player(self, player_ws):
+        _p = None
+        for p in self.players:
+            if player_ws == p['ws']:
+                _p = p
+        if _p in self.players:
+            self.players.remove(_p)
 
     def send_all(self, message):
         for p in self.players:
