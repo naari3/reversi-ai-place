@@ -156,18 +156,20 @@ class TestGameMaster(object):
     def test_receive_move_valid(self):
         gm = BoardGameMaster(1)
 
+        player1_ws = _player()
+        player2_ws = _player()
         player1 = {
-            'ws': _player(),
+            'ws': player1_ws,
             'user': self.user1,
         }
         player2 = {
-            'ws': _player(),
+            'ws': player2_ws,
             'user': self.user2,
         }
         gm.add_player(player1)
         gm.add_player(player2)
 
-        assert gm.receive_move(player1, 4, 2) is True
+        assert gm.receive_move(player1_ws, 4, 2) is True
 
         correct_data = {
             "meta": {

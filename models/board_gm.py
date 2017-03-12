@@ -25,6 +25,9 @@ class BoardGameMaster(object):
                 self.players.append(player)
                 if len(self.players) == 2:
                     self.game_start()
+                data_message = json.dumps(
+                    self.extract_data(), sort_keys=True, ensure_ascii=False)
+                self.send_all(data_message)
                 return True
             else:
                 print('this user is already entered this board')
@@ -94,7 +97,10 @@ class BoardGameMaster(object):
         self.status.finish()
 
     def receive_move(self, player, x, y):
-        ind = self.players.index(player) + 1
+        ind = None
+        for i, p in enumerate(self.players):
+            if p['ws'] == player:
+                ind = i + 1
         place = x + y * 8
         reverse_num = 0
 
@@ -119,3 +125,7 @@ class BoardGameMaster(object):
             send_data, sort_keys=True, ensure_ascii=False)
         self.send_all(data_message)
         return bool(reverse_num)
+
+    def close_board(self):
+        for p in self.players:
+            p['ws'].close(code=1000, reason="board no.[{board_id}] is closed")
