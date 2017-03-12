@@ -13,6 +13,8 @@ class BaseHandler(tornado.web.RequestHandler):
             return None
         sid = sid.decode('utf-8')
         session = Session(self.application.session_store, sid)
+        if not session.data:
+            return None
         if session.data.get('twitter_id'):
             user = User.get(twitter_id=session.data['twitter_id'])
         else:
