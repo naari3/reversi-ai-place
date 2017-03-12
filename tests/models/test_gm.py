@@ -20,9 +20,9 @@ class _player(object):
 class TestGameMaster(object):
 
     def setup_class(cls):
-        cls.user1 = User.get_or_create(id=1)[0]
-        cls.user2 = User.get_or_create(id=2)[0]
-        cls.user3 = User.get_or_create(id=3)[0]
+        cls.user1 = User.get(id=1)
+        cls.user2 = User.get(id=2)
+        cls.user3 = User.get(id=3)
 
     def test_instance(self):
         gm = BoardGameMaster(1)
@@ -68,22 +68,24 @@ class TestGameMaster(object):
         assert gm.add_player(player1_2) is False
 
     def test_remove_player(self):
+        removable_player1 = _player()
+        removable_player2 = _player()
         gm = BoardGameMaster(1)
         player1 = {
-            'ws': _player(),
+            'ws': removable_player1,
             'user': self.user1,
         }
         player2 = {
-            'ws': _player(),
+            'ws': removable_player2,
             'user': self.user2,
         }
         gm.add_player(player1)
         gm.add_player(player2)
 
-        gm.remove_player(player1)
+        gm.remove_player(removable_player1)
         assert player1 not in gm.players
 
-        gm.remove_player(player2)
+        gm.remove_player(removable_player2)
         assert player2 not in gm.players
 
     def test_game_start(self):

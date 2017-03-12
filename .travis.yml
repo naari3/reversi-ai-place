@@ -16,4 +16,5 @@ before_script:
 script:
   - touch .env
   - ls *.py */**.py | xargs -n1 pycodestyle --ignore=E501
+  - python init_user.py
   - py.test tests/
