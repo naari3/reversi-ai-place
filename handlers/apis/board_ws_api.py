@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 import tornado.websocket
 
-from .base_api import BaseAPIHandler
+from .base_api import BaseAPIWebSocketHandler
 from models import BoardGameMaster, User
 from handlers import BoardWebSocketHandler
 
 import json
 
 
-class BoardWebSocketAPIHandler(BaseAPIHandler):
+class BoardWebSocketAPIHandler(BaseAPIWebSocketHandler):
 
-    @BaseAPIHandler.need_access_token
+    @BaseAPIWebSocketHandler.need_access_token
     def open(self, board_id):
         print(f"opened and connected to {board_id} by {self.request.remote_ip}")
         self.application.boards[board_id] = self.application.boards.get(
@@ -22,6 +22,7 @@ class BoardWebSocketAPIHandler(BaseAPIHandler):
             'ws': self,
             'user': self.get_token_user(),
         }
+        print(player['user'].twitter_id)
         if not self.application.boards[board_id].add_player(player):
             self.close(code=1003, reason="You can't join to [{board_id}]")
 

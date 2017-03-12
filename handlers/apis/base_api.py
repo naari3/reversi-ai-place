@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import tornado.escape
 import tornado.web
+import tornado.websocket
+from tornado.web import HTTPError
 
 from models import User, AccessToken
 
@@ -19,17 +21,43 @@ class BaseAPIHandler(tornado.web.RequestHandler):
             user = self.get_token_user()
             if user:
                 method(self, *args, **kwargs)
-            raise HTTPError(403)
+            else:
+                raise HTTPError(403)
         return wrapper
 
     def get_token_user(self):
-        authorization = self.headers.get('Authorization', None)
+        authorization = self.request.headers.get('Authorization', None)
         if authorization:
-            match = token_repatte.match(authorization)
+            match = token_repatter.match(authorization)
             if match:
                 token = match.groups()[0]
-                access_token = AccessToken.find_by_access_token(token)
+                access_token = AccessToken(self.application.access_token_store).find_by_access_token(token)
                 if access_token.user_id:
-                    user = User.get(user_id=access_token.user_id)
+                    user = User.get(id=access_token.user_id)
+                    return user
+        return None
+
+
+class BaseAPIWebSocketHandler(tornado.websocket.WebSocketHandler):
+
+    def need_access_token(method):
+        @functools.wraps(method)
+        def wrapper(self, *args, **kwargs):
+            user = self.get_token_user()
+            if user:
+                method(self, *args, **kwargs)
+            else:
+                raise HTTPError(403)
+        return wrapper
+
+    def get_token_user(self):
+        authorization = self.request.headers.get('Authorization', None)
+        if authorization:
+            match = token_repatter.match(authorization)
+            if match:
+                token = match.groups()[0]
+                access_token = AccessToken(self.application.access_token_store).find_by_access_token(token)
+                if access_token.user_id:
+                    user = User.get(id=access_token.user_id)
                     return user
         return None

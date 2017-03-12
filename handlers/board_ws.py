@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import tornado.websocket
 
-from models import BoardGameMaster
+from models import BoardGameMaster, User
 
 import json
 
@@ -19,7 +19,11 @@ class BoardWebSocketHandler(tornado.websocket.WebSocketHandler):
         print(self.application.boards)
         self.application.board_id_dict[self] = board_id  # 逆引き: ダサい
         # 追加できたらTrue返ってくる
-        if not self.application.boards[board_id].add_player(self):
+        player = {
+            'ws': self,
+            'user': self.get_current_user(),
+        }
+        if not self.application.boards[board_id].add_player(player):
             self.close(code=1003, reason="You can't join to [{board_id}]")
 
     def on_close(self):
