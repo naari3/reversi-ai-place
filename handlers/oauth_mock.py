@@ -31,7 +31,7 @@ class OAuthAccessToken(BaseHandler):
             data = {
                 'token_type': 'Bearer',
                 'access_token': access_token.access_token,
-                'expires_in': access_token.access_token_store.options.expire,
+                'expires_in': access_token.access_token_store.options["expire"],
                 'refresh_token': access_token.refresh_token,
             }
 
