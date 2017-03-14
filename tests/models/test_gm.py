@@ -12,9 +12,13 @@ class _player(object):
 
     def __init__(self):
         message = None
+        closed = False
 
     def write_message(self, message):
         self.message = message
+
+    def close(self, code, reason):
+        self.closed = True
 
 
 class TestGameMaster(object):
