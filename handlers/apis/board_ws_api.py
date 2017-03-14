@@ -37,7 +37,7 @@ class BoardWebSocketAPIHandler(BaseAPIWebSocketHandler):
         board_id = self.application.board_id_dict[self]
         input_data = json.loads(message)
         try:
-            if input_data.get('x', False) and input_data.get('y', False):
+            if (input_data.get('x', False) is not False) and (input_data.get('y', False) is not False):
                 self.application.boards[board_id].receive_move(
                     self.get_token_user(), input_data['x'], input_data['y'])
             else:
