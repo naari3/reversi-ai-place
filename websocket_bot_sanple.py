@@ -44,7 +44,7 @@ class SampleReversiBot(object):
 
     def get_board(self, board):
         for i, bo in enumerate(board):
-            self.v_board.board[i*8:(i+1)*8] = bo
+            self.v_board.board[i * 8:(i + 1) * 8] = bo
 
     def move(self, ws, board):
         print(".*o"[self.turn])
