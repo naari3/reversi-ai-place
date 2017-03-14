@@ -86,15 +86,21 @@ class BoardGameMaster(object):
         self.status.start()
 
     def pass_check(self, count=0):
+        print("passing", count)
         if count == 2:
             self.finish()
-        putable = self.board.able_to_put(self.status.turn)
-        if len(putable) == 0 and count < 2:  # どこにも置けなかったら
-            self.status.progress_turn()
-            self.pass_check(count + 1)
+        else:
+            putable = self.board.able_to_put(self.status.turn)
+            print(self.status.turn, "putable", putable)
+            if len(putable) == 0:  # どこにも置けなかったら
+                print(self.status.turn, "has passed!")
+                self.status.progress_turn()
+                self.pass_check(count + 1)
+        print()
 
     def finish(self):
         self.status.finish()
+        print("finished")
 
     def receive_move(self, user, x, y):
         ind = None
@@ -107,7 +113,8 @@ class BoardGameMaster(object):
         try:
             reverse_num = self.board.put_piece(place, ind)
             self.status.progress_turn()
-            self.pass_check()
+            if self.pass_check():
+                pass
         except Exception as e:
             if isinstance(e, AssertionError):
                 print("invalid move")
@@ -124,6 +131,8 @@ class BoardGameMaster(object):
         data_message = json.dumps(
             send_data, sort_keys=True, ensure_ascii=False)
         self.send_all(data_message)
+        if self.status.finished:
+            self.close_board()
         return bool(reverse_num)
 
     def close_board(self):
