@@ -44,7 +44,7 @@ class ReversiStatus(object):
     @after_start_method
     def progress_turn(self):
         if self.turn == 1:
-            self.turn += 1
+            self.turn = 2
         elif self.turn == 2:
             self.turn = 1
             self.turns += 1
