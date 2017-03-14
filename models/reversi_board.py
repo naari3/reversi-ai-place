@@ -24,8 +24,6 @@ class ReversiBoard(object):
     def put_piece(self, p, w, puton=True, chk=True, other_board=None):
         if isinstance(p, list):
             p = (p[0]) + p[1] * 8
-            if p > 63:
-                p = (p[0] - 1) + (p[1] - 1) * 8
         t, x, y = 0, p % 8, p // 8
         for di, fi in zip([-1, 0, 1], [x, 7, 7 - x]):
             for dj, fj in zip([-8, 0, 8], [y, 7, 7 - y]):
